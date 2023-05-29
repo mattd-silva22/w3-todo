@@ -7,7 +7,7 @@ export class TasksServices {
   database: Database;
 
   constructor() {
-    this.database = new Database();
+    this.database = new Database(); 
   }
 
   public createTasks(req: TaskBodyRequest<Task>, res: Response) {
