@@ -18,6 +18,6 @@ export class TasksController {
   }
 
   public delete(req: Request, res: Response) {
-    return tasksService.deleteTasks(req, res);
+    return tasksService.deleteTasks(req.params.id,res);
   }
 }

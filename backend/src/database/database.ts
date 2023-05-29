@@ -1,43 +1,67 @@
-import { Task } from "../interface/task.interface";
 
+import { Task } from "../interface/task.interface";
+import { uuid } from 'uuidv4';
 
 export class Database {
-    _database: Task[]
+    _taskList: Task[]
     constructor(){
-        this._database = [
-            { id: 1, titulo: "Aprender React", concluida: true },
-            { id: 2, titulo: "Estudar NodeJS", concluida: false },
-            { id: 3, titulo: "Praticar TypeScript", concluida: false }
+        this._taskList = [
+            { id: "1a", titulo: "Aprender React", concluida: true },
+            { id: "2b", titulo: "Estudar NodeJS", concluida: false },
+            { id: "3c", titulo: "Praticar TypeScript", concluida: false }
             ];
     }
 
     add(task:Task){
-        this._database = [...this._database, task]
-        return true
+        const uid = uuid()
+        this._taskList = [...this._taskList,{...task,id:uid }]
+        console.log(this._taskList)
+        return uid
     }
 
-    remove(id:number){
-        this._database = this._database.filter(task => task.id != id)
-        return true
-    }
-
-    update(updatedTask:Task){
-        this._database = this._database.map( task => {
-            if(updatedTask.id === task.id){
-                return updatedTask
+    remove(id:string){
+        let isFound = false
+        this._taskList = this._taskList.filter(task => {
+            if(task.id == id) {
+                isFound = true
+                return 
             } else {
                 return task
             }
         })
-        return true
+        if(isFound){
+            return true
+        } else {
+            return false
+        }
+    
+    }
+
+    update(updatedTask:Task){
+        let isFound = false
+        this._taskList = this._taskList.map( task => {
+            if(updatedTask.id === task.id){
+                isFound = true
+                return {...task, concluida : updatedTask.concluida}
+            } else {
+                return task
+            }
+        })
+
+        if(isFound) {
+            return true
+        } else {
+            return false
+        }
+        
     }
 
     findMany(){
-        return this._database
+        return this._taskList
     }
 
-    findOne(id:number){
-        return this._database.filter(task => task.id === id)
+    findOne(id:string){
+        return this._taskList.filter(task => task.id === id)
     }
 }
 
